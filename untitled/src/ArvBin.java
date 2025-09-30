@@ -1,6 +1,11 @@
+package untitled.src;
+
 import java.util.Comparator;
 
-public class ArvBin  implements lib.IArvoreBinaria {
+public class ArvBin <T>  implements IArvoreBinaria {
+
+    private No <T> raiz;
+
     @Override
     public void adicionar(Object novoValor) {
     }
