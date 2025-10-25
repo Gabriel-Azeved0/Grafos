@@ -11,6 +11,12 @@ public class No <T> {
         this.value = value;
     }
 
+    public No(T value){
+        this.value = value;
+        this.left = null;
+        this.right = null;
+    }
+
     public No<T> getLeft() {
         return left;
     }
