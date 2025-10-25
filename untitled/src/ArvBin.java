@@ -6,16 +6,15 @@ public class ArvBin<T>  implements IArvoreBinaria<T> {
     private No <T> raiz;
     private final Comparator<T> comparator;
 
-    public ArvBin(Comparator<T> comparator, T valor) {
+    public ArvBin(Comparator<T> comparator) {
         this.comparator = comparator;
-        No<T> novoNo = new No<T>(valor);
-        this.raiz = novoNo;
+        this.raiz = null;
     }
 
     @Override
     public void adicionar(T novoValor) {
         No<T> novoNo = new No<T>(novoValor);
-        if (this.raiz.getValue() == null){
+        if (this.raiz == null){
             this.raiz = novoNo;
         }else{
             adicionarInterno(novoNo, this.raiz);
@@ -62,12 +61,18 @@ public class ArvBin<T>  implements IArvoreBinaria<T> {
 
     @Override
     public int altura() {
-        return 0;
+        if (this.raiz == null) {
+            return -1; // conforme requisito da interface
+        }
+        return alturaInterno(this.raiz, this.raiz);
     }
 
     @Override
     public int quantidadeNos() {
-        return 0;
+        if (this.raiz == null) {
+            return 0;
+        }
+        return quantidadeNosInterno(this.raiz, this.raiz);
     }
 
     @Override
@@ -99,7 +104,7 @@ public class ArvBin<T>  implements IArvoreBinaria<T> {
     }
 
 
-    private No<T> adicionarInterno(No<T> novoValor, No<T> noAtual){
+    protected No<T> adicionarInterno(No<T> novoValor, No<T> noAtual){
         int cmp = this.comparator.compare(novoValor.getValue(), noAtual.getValue());
         if(cmp == 0){
             return null;
@@ -119,7 +124,7 @@ public class ArvBin<T>  implements IArvoreBinaria<T> {
         return null;
     }
 
-    private No<T> pesquisarInterno(No<T>noBusca, No<T> noAtual){
+    protected No<T> pesquisarInterno(No<T>noBusca, No<T> noAtual){
         if (noAtual == null) {
             return null;
         }
@@ -134,7 +139,7 @@ public class ArvBin<T>  implements IArvoreBinaria<T> {
     }
 
 
-    private No<T> pesquisarInterno(No<T>noBusca, No<T> noAtual, Comparator<T> novoComparator){
+    protected No<T> pesquisarInterno(No<T>noBusca, No<T> noAtual, Comparator<T> novoComparator){
         if (noAtual == null){
             return null;
         }
@@ -151,7 +156,7 @@ public class ArvBin<T>  implements IArvoreBinaria<T> {
         }
     }
 
-    private NoRemovido<T> removerInterno(No<T> novoNo, No<T> noAtual) {
+    protected NoRemovido<T> removerInterno(No<T> novoNo, No<T> noAtual) {
         if (noAtual == null) {
             return new NoRemovido<>(null, null);
         }
@@ -195,7 +200,7 @@ public class ArvBin<T>  implements IArvoreBinaria<T> {
         return new NoRemovido<>(noAtual, valorRemovido);
     }
 
-    private No<T> encontroMenor(No<T> no) {
+    protected No<T> encontroMenor(No<T> no) {
         while (no.getLeft() != null) {
             no = no.getLeft();
         }
@@ -203,7 +208,7 @@ public class ArvBin<T>  implements IArvoreBinaria<T> {
     }
 
     // classe auxiliar interna
-    private static class NoRemovido<U> {
+    protected static class NoRemovido<U> {
         No<U> noAtualizado;
         U valorRemovido;
         NoRemovido(No<U> noAtualizado, U valorRemovido) {
@@ -212,13 +217,30 @@ public class ArvBin<T>  implements IArvoreBinaria<T> {
         }
     }
 
-    private void caminharEmOrdemInterno(No<T> novoNo, No<T> noAtual, StringBuilder sb) {
+    protected void caminharEmOrdemInterno(No<T> novoNo, No<T> noAtual, StringBuilder sb) {
         if (noAtual == null) return;
 
         caminharEmOrdemInterno(novoNo, noAtual.getLeft(), sb);
         sb.append(noAtual.getValue()).append(" \n ");
         caminharEmOrdemInterno(novoNo, noAtual.getRight(), sb);
     }
-}
 
+    protected int alturaInterno(No<T> novoNo, No<T> noAtual) {
+        if (noAtual == null) {
+            return -1; // árvore vazia tem altura -1
+        }
+        int alturaEsquerda = alturaInterno(novoNo, noAtual.getLeft());
+        int alturaDireita = alturaInterno(novoNo, noAtual.getRight());
+        return 1 + Math.max(alturaEsquerda, alturaDireita);
+    }
+
+    protected int quantidadeNosInterno(No<T> novoNo, No<T> noAtual) {
+        if (noAtual == null) {
+            return 0;
+        }
+        int qtdEsquerda = quantidadeNosInterno(novoNo, noAtual.getLeft());
+        int qtdDireita = quantidadeNosInterno(novoNo, noAtual.getRight());
+        return 1 + qtdEsquerda + qtdDireita;
+    }
+}
 
