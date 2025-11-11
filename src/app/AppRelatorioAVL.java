@@ -1,0 +1,61 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package src.app;
+//Lembre-se de ajustar os imports!!!!!
+import src.lib.ArvoreAVL;
+import src.lib.ArvBin;
+import src.lib.IArvoreBinaria;
+
+/**
+ *
+ * @author victoriocarvalho
+ * 
+ * Classe principal do aplicativo a ser utilizado para fazer o relatório do trabalho 
+ * de árvore AVL
+ */
+public class AppRelatorioAVL {
+    public static void main(String[] args) {
+
+        GeradorDeArvores gerador = new GeradorDeArvores();
+        ComparadorAlunoPorMatricula comparador = new ComparadorAlunoPorMatricula();
+        IArvoreBinaria<Aluno> arv;
+
+
+        // Teste simples
+        IArvoreBinaria<Integer> t = new ArvoreAVL<>(Integer::compareTo);
+        for (int i = 1; i <= 10; i++) t.adicionar(i);
+        System.out.println("Altura esperada (AVL) ~4, obtida: " + t.altura());
+
+        arv = new ArvoreAVL(comparador);
+        gerador.geraArvoreDegenerada(100, arv);
+        System.out.println("Árvore AVL Criada");
+        System.out.println("Quantidade de Nós: " + arv.quantidadeNos()+ " Altura: " + arv.altura());
+        arv = new ArvBin(comparador);
+        gerador.geraArvoreDegenerada(100, arv);
+        System.out.println("Árvore Degenerada Criada");
+        System.out.println("Quantidade de Nós: " + arv.quantidadeNos()+ " Altura: " + arv.altura());
+
+        arv = new ArvoreAVL(comparador);
+        gerador.geraArvoreDegenerada(1000, arv);
+        System.out.println("Árvore AVL Criada");
+        System.out.println("Quantidade de Nós: " + arv.quantidadeNos()+ " Altura: " + arv.altura());
+        arv = new ArvBin(comparador);
+        gerador.geraArvoreDegenerada(1000, arv);
+        System.out.println("Árvore Degenerada Criada");
+        System.out.println("Quantidade de Nós: " + arv.quantidadeNos()+ " Altura: " + arv.altura());
+        
+        arv = new ArvoreAVL(comparador);
+        gerador.geraArvoreDegenerada(10000, arv);
+        System.out.println("Árvore AVL Criada");
+        System.out.println("Quantidade de Nós: " + arv.quantidadeNos()+ " Altura: " + arv.altura());
+        arv = new ArvBin(comparador);
+        gerador.geraArvoreDegenerada(10000, arv);
+        System.out.println("Árvore Degenerada Criada");
+        System.out.println("Quantidade de Nós: " + arv.quantidadeNos()+ " Altura: " + arv.altura());
+
+
+    }
+}
