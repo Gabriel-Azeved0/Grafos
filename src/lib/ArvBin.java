@@ -32,7 +32,7 @@ public class ArvBin<T> implements IArvoreBinaria<T> {
     @SuppressWarnings("unchecked")
     public T pesquisar(T valor, Comparator comparador) {
         if (this.raiz == null) return null;
-        Comparator<T> compExtra = (Comparator<T>) comparador; // interface veio crua
+        Comparator<T> compExtra = (Comparator<T>) comparador;
         NoExemplo<T> achado = pesquisarInterno(new NoExemplo<>(valor), this.raiz, compExtra);
         return (achado == null) ? null : achado.getValor();
     }
@@ -59,7 +59,6 @@ public class ArvBin<T> implements IArvoreBinaria<T> {
 
     @Override
     public String caminharEmNivel() {
-        // não solicitado; pode implementar BFS/queue depois
         return "[]";
     }
 
@@ -69,7 +68,6 @@ public class ArvBin<T> implements IArvoreBinaria<T> {
         StringBuilder sb = new StringBuilder();
         sb.append('[');
         caminharEmOrdemInterno(this.raiz, this.raiz, sb);
-        // remove " \n " final se houver
         if (sb.length() >= 3 && sb.substring(sb.length() - 3).equals(" \n ")) {
             sb.setLength(sb.length() - 3);
         }
@@ -80,7 +78,7 @@ public class ArvBin<T> implements IArvoreBinaria<T> {
     protected NoExemplo<T> adicionarInterno(NoExemplo<T> novoNo, NoExemplo<T> noAtual) {
         int cmp = comparator.compare(novoNo.getValor(), noAtual.getValor());
         if (cmp == 0) {
-            return null; // política: ignora duplicado (ou poderia sobrescrever)
+            return null;
         }
         if (cmp < 0) {
             if (noAtual.getFilhoEsquerda() == null) {
@@ -149,7 +147,7 @@ public class ArvBin<T> implements IArvoreBinaria<T> {
             return new NoRemovido<>(noAtual.getFilhoEsquerda(), valorRemovido);
         }
 
-        // caso 3: dois filhos → sucessor (menor da direita)
+        // adicionar mais um if aqui, para melhor padrão de código
         NoExemplo<T> menorDaDireita = encontroMenor(noAtual.getFilhoDireita());
         noAtual.setValor(menorDaDireita.getValor());
         NoRemovido<T> res = removerInterno(new NoExemplo<>(menorDaDireita.getValor()), noAtual.getFilhoDireita());

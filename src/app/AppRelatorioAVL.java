@@ -23,12 +23,6 @@ public class AppRelatorioAVL {
         ComparadorAlunoPorMatricula comparador = new ComparadorAlunoPorMatricula();
         IArvoreBinaria<Aluno> arv;
 
-
-        // Teste simples
-        IArvoreBinaria<Integer> t = new ArvoreAVL<>(Integer::compareTo);
-        for (int i = 1; i <= 10; i++) t.adicionar(i);
-        System.out.println("Altura esperada (AVL) ~4, obtida: " + t.altura());
-
         arv = new ArvoreAVL(comparador);
         gerador.geraArvoreDegenerada(100, arv);
         System.out.println("Árvore AVL Criada");
