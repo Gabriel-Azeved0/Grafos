@@ -34,5 +34,8 @@ public class Aluno  {
         this.nome = nome;
     }
 
-
+    @Override
+    public String toString(){
+        return this.nome + " " + this.matricula;
+    }
 }

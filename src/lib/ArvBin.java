@@ -78,6 +78,7 @@ public class ArvBin<T> implements IArvoreBinaria<T> {
     protected NoExemplo<T> adicionarInterno(NoExemplo<T> novoNo, NoExemplo<T> noAtual) {
         int cmp = comparator.compare(novoNo.getValor(), noAtual.getValor());
         if (cmp == 0) {
+            System.out.println("Matricula ja existe, novo aluno nao foi adicionado!!");
             return null;
         }
         if (cmp < 0) {
@@ -111,7 +112,7 @@ public class ArvBin<T> implements IArvoreBinaria<T> {
 
         NoExemplo<T> achadoEsq = pesquisarInterno(noBusca, noAtual.getFilhoEsquerda(), compExtra);
         if (achadoEsq != null) return achadoEsq;
-        return pesquisarInterno(noBusca, noAtual.getFilhoDireita(), compExtra);
+        else return pesquisarInterno(noBusca, noAtual.getFilhoDireita(), compExtra);
     }
 
     protected NoRemovido<T> removerInterno(NoExemplo<T> noBusca, NoExemplo<T> noAtual) {
@@ -147,7 +148,7 @@ public class ArvBin<T> implements IArvoreBinaria<T> {
             return new NoRemovido<>(noAtual.getFilhoEsquerda(), valorRemovido);
         }
 
-        // adicionar mais um if aqui, para melhor padrão de código
+        // caso 3: dois filhos
         NoExemplo<T> menorDaDireita = encontroMenor(noAtual.getFilhoDireita());
         noAtual.setValor(menorDaDireita.getValor());
         NoRemovido<T> res = removerInterno(new NoExemplo<>(menorDaDireita.getValor()), noAtual.getFilhoDireita());
