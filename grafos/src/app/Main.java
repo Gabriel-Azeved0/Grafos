@@ -3,7 +3,6 @@ package app;
 import lib.Aresta;
 import lib.Grafo;
 import lib.Vertice;
-import app.Encomenda;
 import java.util.ArrayList;
 import java.util.List;
 
