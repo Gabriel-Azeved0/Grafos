@@ -6,3 +6,4 @@ Cariacica Guarapari 40 true
 Serra Linhares 120 true
 Guarapari Linhares 160 true
 Cariacica Serra 30 false
+Linhares Vitoria 20 true

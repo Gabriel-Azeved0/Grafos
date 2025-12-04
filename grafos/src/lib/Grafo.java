@@ -14,13 +14,12 @@ public class Grafo<T> {
     //                      VÉRTICES
     // =====================================================
 
-
     public Vertice<T> adicionarVertice(T valor) {
         Vertice<T> existente = buscarVertice(valor);
         if (existente != null) return existente;
 
         Vertice<T> novo = new Vertice<>(valor);
-        vertices.add(novo);
+        this.vertices.add(novo);
         return novo;
     }
 
@@ -38,11 +37,6 @@ public class Grafo<T> {
     // =====================================================
     //                       ARESTAS
     // =====================================================
-
-
-    public void adicionarAresta(T origem, T destino, float peso) {
-        adicionarAresta(origem, destino, (int) peso, false);
-    }
 
     public void adicionarAresta(T origem, T destino, int peso, boolean direcional) {
 
@@ -86,11 +80,6 @@ public class Grafo<T> {
             Vertice<T> atual = fila.poll();
             System.out.println(atual.getValor());
 
-            // Se quiser sempre mesma ordem, pode ordenar adjacência aqui
-            // List<Aresta<T>> adj = new ArrayList<>(atual.getArestas());
-            // adj.sort(Comparator.comparing(a -> a.getDestino().getValor().toString()));
-            // for (Aresta<T> a : adj) { ... }
-
             for (Aresta<T> a : atual.getArestas()) {
                 Vertice<T> viz = a.getDestino();
                 if (!visitados.contains(viz)) {
@@ -99,84 +88,6 @@ public class Grafo<T> {
                 }
             }
         }
-    }
-
-
-    // =====================================================
-    //                      CICLO
-    // =====================================================
-
-
-    public boolean temCiclo() {
-
-        HashSet<Vertice<T>> visitados = new HashSet<>();
-        HashSet<Vertice<T>> pilha = new HashSet<>();
-
-        for (Vertice<T> v : vertices) {
-            if (!visitados.contains(v) && temCicloUtil(v, visitados, pilha)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private boolean temCicloUtil(Vertice<T> v, HashSet<Vertice<T>> visitados, HashSet<Vertice<T>> pilha) {
-
-        visitados.add(v);
-        pilha.add(v);
-
-        for (Aresta<T> a : v.getArestas()) {
-
-            Vertice<T> d = a.getDestino();
-
-            if (!visitados.contains(d)) {
-                if (temCicloUtil(d, visitados, pilha)) return true;
-
-            } else if (pilha.contains(d)) {
-                return true;
-            }
-        }
-
-        pilha.remove(v);
-        return false;
-    }
-
-    // =====================================================
-    //                  ORDENAÇÃO TOPOLOGICA
-    // =====================================================
-
-    public ArrayList<Vertice<T>> ordenacaoTopologica() {
-
-        ArrayList<Vertice<T>> resultado = new ArrayList<>();
-        HashSet<Vertice<T>> visitados = new HashSet<>();
-        Stack<Vertice<T>> pilha = new Stack<>();
-
-        for (Vertice<T> v : vertices) {
-            if (!visitados.contains(v)) {
-                ordenacaoTopologicaUtil(v, visitados, pilha);
-            }
-        }
-
-        while (!pilha.isEmpty()) {
-            resultado.add(pilha.pop());
-        }
-
-        return resultado;
-    }
-
-    private void ordenacaoTopologicaUtil(Vertice<T> v, HashSet<Vertice<T>> visitados, Stack<Vertice<T>> pilha) {
-
-        visitados.add(v);
-
-        for (Aresta<T> a : v.getArestas()) {
-            Vertice<T> d = a.getDestino();
-            if (!visitados.contains(d)) {
-                ordenacaoTopologicaUtil(d, visitados, pilha);
-            }
-        }
-
-        pilha.push(v);
     }
 
 
@@ -363,7 +274,7 @@ public class Grafo<T> {
                 int peso = Integer.parseInt(p[2]);
                 boolean direcional = Boolean.parseBoolean(p[3]);
 
-                adicionarAresta(origem, destino, peso, direcional);
+                this.adicionarAresta(origem, destino, peso, direcional);
             }
 
             System.out.println("✔ Rotas carregadas com sucesso.");
@@ -405,7 +316,7 @@ public class Grafo<T> {
         while (!fila.isEmpty()) {
 
             Vertice<T> atual = fila.poll();
-            if (atual == alvo) break; // pode parar cedo
+            if (atual == alvo) break;
 
             for (Aresta<T> a : atual.getArestas()) {
 
